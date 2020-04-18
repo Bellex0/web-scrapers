@@ -1,7 +1,9 @@
 const cheerio = require('cheerio')
 const request = require('request')
 
-request('https://www.wikileaf.com/strains/', (error, response, html) => {
+
+for(let i=0; i<=94; i++){
+request(`https://www.wikileaf.com/strains/?page=${i}`, (error, response, html) => {
     if (!error && response.statusCode === 200){
         const $ = cheerio.load(html)
     
@@ -12,13 +14,18 @@ request('https://www.wikileaf.com/strains/', (error, response, html) => {
         .text()
 
         const type = $(el)
-        .find('p')
+        .find('p.tag')
         .text()
 
-        console.log(strain, type)
+        const content = $(el)
+        .find('p.desc')
+        .text()
+
+        console.log(strain, type, content)
     })
 }
 })
+}
 
 // request('https://www.leafly.com/strains?sort=name', (error, response, html) => {
 //     if (!error && response.statusCode === 200){
