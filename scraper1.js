@@ -1,7 +1,13 @@
 const cheerio = require('cheerio')
 const request = require('request')
+const fs = require('fs')
+const writeStream = fs.createWriteStream('strains.csv')
+
+//Write Headers
+writeStream.write(`Strain, Type, Content \n` )
 
 
+// const scrape = function(){
 for(let i=0; i<=94; i++){
 request(`https://www.wikileaf.com/strains/?page=${i}`, (error, response, html) => {
     if (!error && response.statusCode === 200){
@@ -21,22 +27,24 @@ request(`https://www.wikileaf.com/strains/?page=${i}`, (error, response, html) =
         .find('p.desc')
         .text()
 
-        console.log(strain, type, content)
+        // Write Row to CSV
+
+        writeStream.write(`${strain}, ${type}, ${content} \n`)
+    //    console.log(strain, type, content)
     })
 }
 })
 }
 
-// request('https://www.leafly.com/strains?sort=name', (error, response, html) => {
-//     if (!error && response.statusCode === 200){
-//         const $ = cheerio.load(html)
-//     $('.strain-playlist-grid').each((i, el) => {
-//         const strain = $(el.div)
-//         // .find("strain-tile__name")
-//         .text()
 
-//         console.log(strain)
-//     })
-// }
-// })
+
+
+
+
+
+
+ 
+
+
+
 
