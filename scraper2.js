@@ -25,7 +25,7 @@ request(`https://www.leafly.com/strains?sort=name&page=${i}`, (error, response, 
         .find('span')
         .text()
 
-        return {strain, trait}
+        console.log({strain, trait})
     })
 }
 })

@@ -3,7 +3,8 @@ const request = require('request')
 const fs = require('fs')
 const writeStream = fs.createWriteStream('strains.csv')
 
-//Write Headers
+
+// Write Headers
 writeStream.write(`Strain, Type, Content \n` )
 
 
@@ -13,23 +14,32 @@ request(`https://www.wikileaf.com/strains/?page=${i}`, (error, response, html) =
     if (!error && response.statusCode === 200){
         const $ = cheerio.load(html)
     
-    // $('.container.strains-list').each((i, el) => {
-        $('.row.results-container').find('mat-card').each((i, el) => {
-        const strain = $(el)
-        .find('.name.disp-title')
-        .text()
+    $('.container.strains-list').find('mat-card').each((i, el) => {
+        // $('.row.results-container').find('mat-card').each((i, el) => {
+            const image = $(el)
+            .find('div[class="img-wrapper"] > img[class="mat-card-image"]')
 
-        const type = $(el)
-        .find('p.tag')
-        .text()
+            // .find('div.img-wrapper')
+            .attr('src')
 
-        const content = $(el)
-        .find('p.desc')
-        .text()
-
+           
+            const strain = $(el)
+            .find('.name.disp-title')
+            .text()
+            
+            const type = $(el)
+            .find('p.tag')
+            .text()
+            
+            const content = $(el)
+            .find('p.desc')
+            .text()
+            
+    
         // Write Row to CSV
 
-        writeStream.write(`${strain}, ${type}, ${content} \n`)
+        // writeStream.write(`${strain}, ${type}, ${content} \n`)
+        console.log(image)
     //    console.log(strain, type, content)
     })
 }
