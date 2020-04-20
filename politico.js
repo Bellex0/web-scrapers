@@ -7,8 +7,8 @@ const request = require ('request')
 async function getName() {
     let nameArr=[]
     for (i=1; i <= 2; i++){
-        await request(`https://www.politico.com/news/2020-elections/${i}`, (error, response, html) => {
-            if (!error && response.statusCode === 200){
+        let results = await function() { request(`https://www.politico.com/news/2020-elections/${i}`, (error, response, html) => {
+            // if (!error && response.statusCode === 200){
                 const $ = cheerio.load(html)
 
             $('.content.layout-bi-unequal').each((i, el) => {
@@ -18,29 +18,45 @@ async function getName() {
                 .text()
 
                 // return name
+            
+                // console.log(name)
 
-                console.log(name)
-                // if (name.includes('Trump')){
-                //         numTrump++
-                //         }
-                //         else if (name.includes('Biden')){
-                //                   numBiden++
-                //                  }
-                //                  else {
-                //                      null
-                //                  }
-
-                // nameArr.push(name)
-                // console.log(nameArr)
+                nameArr.push(`${name}`.replace(/\n/g, ' '))
+                // return nameArr
                 
-                // return `${name}`
+                // let nameObj = console.log({name})
+                // console.log(nameArr[0])
+            })
+            return nameArr
+            
+            
+            
+            
+            console.log(nameArr)
+            
+            // return `${name}`
+            //              // }
+            // let arr = results()
+            // if (arr.includes('Trump')){     
+            //         numTrump++
+            //         }
+            //         else if (arr.includes('Biden')){
+            //                   numBiden++
+            //                  }
+            //                  else {
+            //                      null
+            //                  }
+        
         })
-        }
-    })
+        
+        console.log(results())
+    }
+       
 } 
-// return nameArr
-// console.log(nameArr)
+// return results
+// console.log(numTrump)
 // return numTrump, numBiden
+
 }
 
 console.log(getName())
